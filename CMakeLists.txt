@@ -28,16 +28,20 @@ endif()
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
-find_package(OpenCV 3.0 QUIET)
-if(NOT OpenCV_FOUND)
-   find_package(OpenCV 2.4.3 QUIET)
-   if(NOT OpenCV_FOUND)
-      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
-   endif()
+# Thirdparty libraries
+if (NOT CMAKE_BUILD_TYPE MATCHES "Debug" AND NOT CMAKE_BUILD_TYPE MATCHES "Release")
+    message(FATAL_ERROR "Invalid build type: should be either Debug or Release")
 endif()
-
-find_package(Eigen3 3.1.0 REQUIRED)
-find_package(Pangolin REQUIRED)
+if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+   find_package(OpenCV 3.4.15 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/opencv/install/Debug/share/OpenCV)
+   find_package(Eigen3 3.3.9 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/eigen/install/Debug/share/eigen3/cmake)
+   find_package(Pangolin REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/pangolin/install/Debug/lib/cmake/Pangolin)
+endif()
+if (${CMAKE_BUILD_TYPE} MATCHES "Release")
+   find_package(OpenCV 3.4.15 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/opencv/install/Release/share/OpenCV)
+   find_package(Eigen3 3.3.9 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/eigen/install/Release/share/eigen3/cmake)
+   find_package(Pangolin REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/pangolin/install/Release/lib/cmake/Pangolin)
+endif()
 
 include_directories(
 ${PROJECT_SOURCE_DIR}
