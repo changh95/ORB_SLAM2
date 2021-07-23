@@ -24,13 +24,13 @@ set(SRCS_DUTILS
   DUtils/Random.cpp
   DUtils/Timestamp.cpp)
 
-find_package(OpenCV 3.0 QUIET)
-if(NOT OpenCV_FOUND)
-   find_package(OpenCV 2.4.3 QUIET)
-   if(NOT OpenCV_FOUND)
-      message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
-   endif()
+if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+   find_package(OpenCV 3.4.15 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../opencv/install/Debug/share/OpenCV)
 endif()
+if (${CMAKE_BUILD_TYPE} MATCHES "Release")
+   find_package(OpenCV 3.4.15 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../opencv/install/Release/share/OpenCV)
+endif()
+
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
