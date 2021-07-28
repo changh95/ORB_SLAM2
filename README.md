@@ -1,3 +1,41 @@
+# Portable-ORB-SLAM2
+
+- Original Authors: [Raul Mur-Artal](http://webdiis.unizar.es/~raulmur/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/), [J. M. M. Montiel](http://webdiis.unizar.es/~josemari/) and [Dorian Galvez-Lopez](http://doriangalvez.com/) ([DBoW2](https://github.com/dorian3d/DBoW2))
+- Editor in charge of update: [Hyunggi Chang (changh95)](https://github.com/changh95)
+
+## What's new in this repository?
+
+- This project is ***portable*** unlike the original code.
+  - Copy-and-paste the project folder to a new environment, and it will still work!
+- With a single command, you can download all library dependencies.
+  - The following libraries are installed:
+    - OpenCV 3.4.15
+    - Eigen 3.3.9
+    - Pangolin 0.6
+- With a single command, build the ORB-SLAM2 program.
+  - No need to worry about complicated CMake stuffs!
+- With a single command, download all the datasets to run SLAM experiments. (TBC)
+- Run ORB-SLAM2 with your own webcam. (TBC)
+
+## How to use
+
+> Currently only tested on Ubuntu Linux.
+
+- Make sure you have Python3 installed to your system
+  - Download and install Python3 - `sudo apt install python3`
+- To download all project dependencies:
+  - Run python script - `./buildDeps.py`
+  - To build debug mode - `./buildDeps.py --d`
+  - To build dependencies without any manual password inputs - `./buildDeps.py --password XXXX`
+- To build ORB-SLAM2:
+  - Run python script - `./build.py`
+  - To build ROS build - `./build.py --ros`
+
+
+---
+
+> Below this sentence is the original README file of the ORB-SLAM2.
+
 # ORB-SLAM2
 **Authors:** [Raul Mur-Artal](http://webdiis.unizar.es/~raulmur/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/), [J. M. M. Montiel](http://webdiis.unizar.es/~josemari/) and [Dorian Galvez-Lopez](http://doriangalvez.com/) ([DBoW2](https://github.com/dorian3d/DBoW2))
 
