@@ -2,9 +2,16 @@
 
 import os
 import sys
+import argparse
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description='Script for building ORB-SLAM2')
+    parser.add_argument('--ros', action='store_true', default=False,
+                        help='Enable building ROS nodes')
+    args = parser.parse_args()
+
     print("Configuring and building Thirdparty/DBoW2 ...")
 
     os.chdir("./Thirdparty/DBoW2")
@@ -39,13 +46,21 @@ def main():
     os.system("tar -xf ORBvoc.txt.tar.gz")
     os.chdir("../")
 
-    print("Configuring and building ORB_SLAM2 ...")
+    if args.ros:
+        print("Configuring and building ORB-SLAM2 (ROS) ...")
+    else:
+        print("Configuring and building ORB-SLAM2 ...")
+
     os.system("sudo rm -rf build")
     os.system("mkdir build")
     os.chdir("./build")
 
     try:
-        os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+        if args.ros:
+            os.system("cmake .. -DROS_BUILD_TYPE=Release")
+        else:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+
         os.system("make -j")
         os.chdir("../../../")
     except Exception as e:
