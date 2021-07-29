@@ -26,6 +26,7 @@ def main():
     install_pangolin(pw, "0.6", args.d)
     install_eigen(pw, "3.3.9", args.d)
     install_opencv(pw, "3.4.15", args.d)
+    install_easy_profiler(pw, "2.1.0", args.d)
 
 
 class Password:
@@ -200,6 +201,51 @@ def install_opencv(password, version_num, enable_debug):
         os.chdir("../../")
         os.system(password.sudo() + "rm -rf ./build")
         os.system(password.sudo() + "rm -rf opencv-" + version_num)
+    except Exception as e:
+        print("")
+        sys.exit(e)
+
+
+def install_easy_profiler(password, version_num, enable_debug):
+    os.chdir(pwd)
+
+    try:
+        os.system(password.sudo() + "apt -y install qt5-default")
+        os.system(password.sudo() + "rm -rf ./Thirdparty/easy_profiler")
+
+        os.makedirs("./Thirdparty/easy_profiler")
+        os.chdir("./Thirdparty/easy_profiler")
+
+        if os.system("wget -O ./easy_profiler.zip https://github.com/yse/easy_profiler/archive/refs/tags/v" + version_num + ".zip") != 0:
+            raise Exception(
+                "Easy-profiler: pulling source code from Easy-profiler failed")
+
+        os.system("unzip ./easy_profiler.zip -d .")
+
+        os.makedirs("./build/Release", exist_ok=True)
+        os.makedirs("./install/Release", exist_ok=True)
+        os.chdir("./build/Release")
+
+        exec_string = "cmake ../../easy_profiler-" + version_num
+
+        if os.system(exec_string + " -DCMAKE_INSTALL_PREFIX=../../install/Release") != 0:
+            raise Exception("Easy-profiler: cmake configuration failed")
+
+        if os.system("make -j4") != 0:
+            raise Exception("Easy-profiler: make failed")
+
+        if os.system(password.sudo() + "make install") != 0:
+            raise Exception("Easy-profiler: make install failed")
+
+        # Copy lib files to system
+        os.chdir("../../install/Release/lib")
+        os.system(password.sudo() +
+                  "cp libeasy_profiler.so /usr/lib/x86_64-linux-gnu/libeasy_profiler.so")
+
+        os.chdir("../../../")
+        os.system(password.sudo() + "rm -rf ./build")
+        os.system(password.sudo() + "rm -rf easy_profiler-" + version_num)
+
     except Exception as e:
         print("")
         sys.exit(e)

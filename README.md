@@ -14,6 +14,7 @@
     - Pangolin 0.6
 - With a single command, build the ORB-SLAM2 program.
   - No need to worry about complicated CMake stuffs!
+- Supports a profiler feature based on [easy-profiler](https://github.com/yse/easy_profiler).
 - With a single command, download all the datasets to run SLAM experiments. (TBC)
 - Run ORB-SLAM2 with your own webcam. (TBC)
 
@@ -29,6 +30,7 @@
   - To build dependencies without any manual password inputs - `./buildDeps.py --password XXXX`
 - To build ORB-SLAM2:
   - Run python script - `./build.py`
+  - To build with profiler - `./build.py --profiler`
   - To build ROS build - `./build.py --ros`
 
 

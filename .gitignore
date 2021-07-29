@@ -20,6 +20,7 @@ Thirdparty/g2o/lib/
 Thirdparty/pangolin
 Thirdparty/opencv
 Thirdparty/eigen
+Thirdparty/easy_profiler
 Vocabulary/ORBvoc.txt
 build/
 *~
