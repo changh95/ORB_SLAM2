@@ -8,6 +8,8 @@ import argparse
 def main():
     parser = argparse.ArgumentParser(
         description='Script for building ORB-SLAM2')
+    parser.add_argument('--d', action='store_true', default=False,
+                        help='Build debug mode')
     parser.add_argument('--ros', action='store_true', default=False,
                         help='Enable building ROS nodes')
     args = parser.parse_args()
@@ -20,7 +22,10 @@ def main():
     os.chdir("./build")
 
     try:
-        os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+        if args.d:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Debug")
+        else:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
         os.system("make -j")
         os.chdir("../../../")
     except Exception as e:
@@ -34,7 +39,10 @@ def main():
     os.chdir("./build")
 
     try:
-        os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+        if args.d:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Debug")
+        else:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
         os.system("make -j")
         os.chdir("../../../")
     except Exception as e:
@@ -57,6 +65,11 @@ def main():
 
     try:
         if args.ros:
+        if args.d:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Debug")
+        else:
+            os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+
             os.system("cmake .. -DROS_BUILD_TYPE=Release")
         else:
             os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")

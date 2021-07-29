@@ -67,7 +67,12 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${g2o_C_FLAGS}")
 
 # Find Eigen3
 SET(EIGEN3_INCLUDE_DIR ${G2O_EIGEN3_INCLUDE})
-FIND_PACKAGE(Eigen3 3.1.0 REQUIRED)
+if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+   find_package(Eigen3 3.3.9 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../eigen/install/Debug/share/eigen3/cmake)
+endif()
+if (${CMAKE_BUILD_TYPE} MATCHES "Release")
+   find_package(Eigen3 3.3.9 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../eigen/install/Release/share/eigen3/cmake)
+endif()
 IF(EIGEN3_FOUND)
   SET(G2O_EIGEN3_INCLUDE ${EIGEN3_INCLUDE_DIR} CACHE PATH "Directory of Eigen3")
 ELSE(EIGEN3_FOUND)
