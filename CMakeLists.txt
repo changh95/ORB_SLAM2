@@ -43,6 +43,13 @@ if (${CMAKE_BUILD_TYPE} MATCHES "Release")
    find_package(Pangolin REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/pangolin/install/Release/lib/cmake/Pangolin)
 endif()
 
+if(WITH_PROFILER)
+   add_definitions(-DENABLE_PROFILER 1)
+   find_package(easy_profiler REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/opencv/install/Release/lib/cmake/easy_profiler)
+else(WITH_PROFILER)
+   add_definitions(-DENABLE_PROFILER 0)
+endif()
+
 include_directories(
 ${PROJECT_SOURCE_DIR}
 ${PROJECT_SOURCE_DIR}/include
@@ -80,6 +87,9 @@ ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
+# if(WITH_PROFILER)
+# easy_profiler
+# endif(WITH_PROFILER)
 )
 
 # Build examples
