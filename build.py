@@ -65,14 +65,15 @@ def main():
 
     try:
         if args.ros:
-        if args.d:
-            os.system("cmake .. -DCMAKE_BUILD_TYPE=Debug")
+            if args.d:
+                os.system("cmake .. -DROS_BUILD_TYPE=Debug")
+            else:
+                os.system("cmake .. -DROS_BUILD_TYPE=Release")
         else:
-            os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
-
-            os.system("cmake .. -DROS_BUILD_TYPE=Release")
-        else:
-            os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+            if args.d:
+                os.system("cmake .. -DCMAKE_BUILD_TYPE=Debug")
+            else:
+                os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
 
         os.system("make -j")
         os.chdir("../../../")
