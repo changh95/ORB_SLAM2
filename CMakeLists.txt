@@ -5,10 +5,10 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-message("Build type: " ${CMAKE_BUILD_TYPE})
+message(STATUS "Build type: " ${CMAKE_BUILD_TYPE})
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wall  -O3 -march=native ")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall   -O3 -march=native")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3 -march=native -Wno-deprecated")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3 -march=native -Wno-deprecated")
 
 # Check C++11 or C++0x support
 include(CheckCXXCompilerFlag)
@@ -26,12 +26,22 @@ else()
    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
+# LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 # Thirdparty libraries
 if (NOT CMAKE_BUILD_TYPE MATCHES "Debug" AND NOT CMAKE_BUILD_TYPE MATCHES "Release")
     message(FATAL_ERROR "Invalid build type: should be either Debug or Release")
 endif()
+
+# option(WITH_PROFILER "Build with profiler" OFF)
+# if(WITH_PROFILER)
+#    add_definitions(-DENABLE_EASY_PROFILER 1)
+#    find_package(easy_profiler REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/easy_profiler/install/Release/lib/cmake/easy_profiler)
+#    message(STATUS "${easy_profiler_FOUND}")
+# else(WITH_PROFILER)
+#    add_definitions(-DENABLE_EASY_PROFILER 0)
+# endif()
+
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
    find_package(OpenCV 3.4.15 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/opencv/install/Debug/share/OpenCV)
    find_package(Eigen3 3.3.9 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/eigen/install/Debug/share/eigen3/cmake)
@@ -42,13 +52,6 @@ if (${CMAKE_BUILD_TYPE} MATCHES "Release")
    find_package(Eigen3 3.3.9 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/eigen/install/Release/share/eigen3/cmake)
    find_package(Pangolin REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/pangolin/install/Release/lib/cmake/Pangolin)
 endif()
-
-# if(WITH_PROFILER)
-#    add_definitions(-DENABLE_PROFILER 1)
-#    find_package(easy_profiler REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/easy_profiler/install/Release/lib/cmake/easy_profiler)
-# else(WITH_PROFILER)
-#    add_definitions(-DENABLE_PROFILER 0)
-# endif()
 
 include_directories(
 ${PROJECT_SOURCE_DIR}

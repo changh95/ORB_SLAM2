@@ -12,6 +12,8 @@ def main():
                         help='Build debug mode')
     parser.add_argument('--ros', action='store_true', default=False,
                         help='Enable building ROS nodes')
+    # parser.add_argument('--profiler', action='store_true', default=False,
+    #                     help='Enable building with profiler')
     args = parser.parse_args()
 
     print("Configuring and building Thirdparty/DBoW2 ...")
@@ -64,16 +66,24 @@ def main():
     os.chdir("./build")
 
     try:
+        exec_string = "cmake .. "
+        # if args.profiler:
+        #     exec_string += "-WITH_PROFILER=ON "
         if args.ros:
             if args.d:
-                os.system("cmake .. -DROS_BUILD_TYPE=Debug")
+                exec_string += "-DROS_BUILD_TYPE=Debug "
+                os.system(exec_string)
             else:
-                os.system("cmake .. -DROS_BUILD_TYPE=Release")
+                exec_string += "-DROS_BUILD_TYPE=Release "
+
+                os.system(exec_string)
         else:
             if args.d:
-                os.system("cmake .. -DCMAKE_BUILD_TYPE=Debug")
+                exec_string += "-DCMAKE_BUILD_TYPE=Debug"
+                os.system(exec_string)
             else:
-                os.system("cmake .. -DCMAKE_BUILD_TYPE=Release")
+                exec_string += "-DCMAKE_BUILD_TYPE=Release "
+                os.system(exec_string)
 
         os.system("make -j")
         os.chdir("../../../")
