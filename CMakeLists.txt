@@ -33,14 +33,14 @@ if (NOT CMAKE_BUILD_TYPE MATCHES "Debug" AND NOT CMAKE_BUILD_TYPE MATCHES "Relea
     message(FATAL_ERROR "Invalid build type: should be either Debug or Release")
 endif()
 
-# option(WITH_PROFILER "Build with profiler" OFF)
-# if(WITH_PROFILER)
-#    add_definitions(-DENABLE_EASY_PROFILER 1)
-#    find_package(easy_profiler REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/easy_profiler/install/Release/lib/cmake/easy_profiler)
-#    message(STATUS "${easy_profiler_FOUND}")
-# else(WITH_PROFILER)
-#    add_definitions(-DENABLE_EASY_PROFILER 0)
-# endif()
+option(WITH_PROFILER "Build with easy-profiler" OFF)
+
+if(WITH_PROFILER)
+   find_package(easy_profiler REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/easy_profiler/install/Release/lib/cmake/easy_profiler)
+   message(STATUS "easy-profiler found : ${easy_profiler_FOUND}")
+else()
+   message(STATUS "Not using easy-profiler")
+endif()
 
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
    find_package(OpenCV 3.4.15 REQUIRED HINTS ${CMAKE_CURRENT_SOURCE_DIR}/Thirdparty/opencv/install/Debug/share/OpenCV)
@@ -90,9 +90,7 @@ ${EIGEN3_LIBS}
 ${Pangolin_LIBRARIES}
 ${PROJECT_SOURCE_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
 ${PROJECT_SOURCE_DIR}/Thirdparty/g2o/lib/libg2o.so
-# if(WITH_PROFILER)
-# easy_profiler
-# endif(WITH_PROFILER)
+easy_profiler
 )
 
 # Build examples
@@ -101,30 +99,35 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/RGB-D)
 
 add_executable(rgbd_tum
 Examples/RGB-D/rgbd_tum.cc)
-target_link_libraries(rgbd_tum ${PROJECT_NAME})
+target_link_libraries(rgbd_tum ${PROJECT_NAME} 
+)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Stereo)
 
 add_executable(stereo_kitti
 Examples/Stereo/stereo_kitti.cc)
-target_link_libraries(stereo_kitti ${PROJECT_NAME})
+target_link_libraries(stereo_kitti ${PROJECT_NAME}
+)
 
 add_executable(stereo_euroc
 Examples/Stereo/stereo_euroc.cc)
-target_link_libraries(stereo_euroc ${PROJECT_NAME})
+target_link_libraries(stereo_euroc ${PROJECT_NAME}
+)
 
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/Examples/Monocular)
 
 add_executable(mono_tum
 Examples/Monocular/mono_tum.cc)
-target_link_libraries(mono_tum ${PROJECT_NAME})
+target_link_libraries(mono_tum ${PROJECT_NAME}
+)
 
 add_executable(mono_kitti
 Examples/Monocular/mono_kitti.cc)
-target_link_libraries(mono_kitti ${PROJECT_NAME})
+target_link_libraries(mono_kitti ${PROJECT_NAME}
+)
 
 add_executable(mono_euroc
 Examples/Monocular/mono_euroc.cc)
-target_link_libraries(mono_euroc ${PROJECT_NAME})
-
+target_link_libraries(mono_euroc ${PROJECT_NAME}
+)
